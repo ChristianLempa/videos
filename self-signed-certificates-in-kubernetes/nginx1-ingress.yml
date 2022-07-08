@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx1-ingress
+  namespace: nginx1
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
+    traefik.ingress.kubernetes.io/router.middlewares: nginx1-redirecttohttps@kubernetescrd
+spec:
+  rules:
+  - host: "nginx1.clcreative.home"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx1-svc 
+            port:
+              number: 80 
+  tls:
+  - hosts:
+    - nginx1.clcreative.home
+    secretName: nginx1-tls-secret

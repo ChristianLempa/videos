@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: nginx1-cert
+  namespace: nginx1
+spec:
+  secretName: nginx1-tls-secret
+  issuerRef:
+    name: nginx1-clusterissuer
+    kind: ClusterIssuer
+  dnsNames:
+    - nginx1.clcreative.home

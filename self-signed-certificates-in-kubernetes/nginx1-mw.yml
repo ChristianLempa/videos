@@ -1,0 +1,9 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: redirecttohttps
+  namespace: nginx1
+spec:
+  redirectScheme:
+    permanent: false
+    scheme: https
