@@ -25,6 +25,7 @@
 
 ## Architecture Diagram
 
+```
                 Cert-Manager Objects                        Nginx1 Objects
 
                ┌───────────────────────┐                    ┌─────────────────────────────────┐
@@ -63,6 +64,5 @@ and cert       │ tls.key: **priv key** │          │         │ name: ngin
            └───┤►name: nginx1-tls-secret◄──────┼───────┘
                │                               │
                └───────────────────────────────┘
-
-
+```
 
