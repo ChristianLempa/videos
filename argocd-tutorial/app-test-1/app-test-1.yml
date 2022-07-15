@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: app-test-1
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-test-1-deploy
+  namespace: app-test-1
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      app: app-test-1
+  template:
+    metadata:
+      labels:
+        app: app-test-1
+    spec:
+      containers:
+      - name: app-test-1
+        image: nginx
+        ports:
+        - name: web
+          containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-test-1-svc
+  namespace: app-test-1
+  labels:
+    app: app-test-1
+spec:
+  type: ClusterIP
+  ports:
+  - name:  http
+    port:  80
+    targetPort: 80
+    protocol: TCP
+  selector:
+    app: app-test-1
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-test-1-ingress
+  namespace: app-test-1
+spec:
+  rules:
+  - host: "app-test-1.kube-demo-1.clcreative.home"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: app-test-1-svc 
+            port:
+              number: 80
