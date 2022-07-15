@@ -59,3 +59,20 @@ spec:
             name: app-test-1-svc 
             port:
               number: 80
+  tls:
+  - hosts:
+    - app-test-1.kube-demo-1.clcreative.home
+    secretName: app-test-1-tls-secret              
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: app-test-1-cert
+  namespace: app-test-1
+spec:
+  secretName: app-test-1-tls-secret
+  issuerRef:
+    name: ssl-issuer
+    kind: ClusterIssuer
+  dnsNames:
+    - app-test-1.kube-demo-1.clcreative.home
