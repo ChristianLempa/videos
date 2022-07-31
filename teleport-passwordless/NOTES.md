@@ -1,0 +1,1 @@
+https://goteleport.com/docs/setup/reference/config/
