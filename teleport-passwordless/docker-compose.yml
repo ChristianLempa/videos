@@ -1,12 +1,9 @@
 version: '3'
 
-volumes:
-  teleport-data:
-  teleport-certs:
-
 services:
   teleport:
     image: quay.io/gravitational/teleport:10.0.2
+    user: 1000:1000
     container_name: teleport
     entrypoint: /bin/sh
     command: -c "/usr/bin/dumb-init teleport start -d -c /etc/teleport/teleport.yml"
@@ -16,6 +13,5 @@ services:
       - "3025:3025"
       - "443:443"
     volumes:
-      - .config:/etc/teleport
-      - teleport-data:/var/lib/teleport
-      - teleport-certs:/mnt/shared/certs
+      - /home/xcad/teleport-passwordless/config:/etc/teleport
+      - /home/xcad/teleport-passwordless/data:/var/lib/teleport
