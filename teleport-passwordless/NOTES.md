@@ -35,4 +35,8 @@ scp -r * <servername>:/home/xcad/teleport-passwordless
 ```
 docker-compose up
 ```
-
+6. Create user
+```
+docker exec -it teleport tctl users add xcad --roles=editor --logins=root,xcad
+```
+7. Create password

@@ -52,6 +52,7 @@ auth_service:
     second_factor: on
     webauthn:
       rp_id: teleport-demo.clcreative.de
+    connector_name: passwordless
 ssh_service:
   enabled: "yes"
   commands:
