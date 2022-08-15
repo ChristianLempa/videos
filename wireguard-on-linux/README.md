@@ -12,7 +12,7 @@ Video: https://youtu.be/bVKNSf1p1d0
 
 - Linux Server running Ubuntu 20.04 LTS or newer
 
-You can still install mailcow on a Linux Server that is not running Ubuntu, however, this may require different commands!
+You can still install Docker on a Linux Server that is not running Ubuntu, however, this may require different commands!
 
 ## Installation and Configuration
 
