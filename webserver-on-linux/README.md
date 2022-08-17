@@ -17,7 +17,7 @@ Documentation:
 
 Video: https://youtu.be/7GTYB8RVYBc
 
-## 0. Prerequisites
+## Prerequisites
 
 - Linux Server running Ubuntu 20.04 LTS or newer
 - Domain that points to the public IP of your Linux Server
