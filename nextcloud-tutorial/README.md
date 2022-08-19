@@ -20,7 +20,7 @@ Video: https://youtu.be/iFHbzWhKfuU
 You can still install Docker on a Linux Server that is not running Ubuntu, however, this may require different commands!
 
 ## 1. Install Docker, and Docker-Compose
-
+ 
 You can still install Docker on a Linux Server that is not running Ubuntu, however, this may require different commands!
 
 ### 1.1. Install Docker
@@ -97,6 +97,6 @@ Open the web interface of **Nextcloud** at `https://nextcloud.your-server-addres
 
 If you have issues with Desktop Client Sync, you need to change the `config/config.php` file and add the following line.
 
-```json
+```
 'overwriteprotocol' => 'https'
 ```
