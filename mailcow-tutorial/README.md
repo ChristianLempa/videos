@@ -16,10 +16,12 @@ Video: https://www.youtube.com/watch?v=4rzc0hWRSPg
 
 You can still install mailcow on a Linux Server that is not running Ubuntu, however, this may require different commands!
 
-## Installation and Configuration
+## 1. Install Docker, and Docker-Compose
 
-1. Install Docker
-```
+You can still install Docker on a Linux Server that is not running Ubuntu, however, this may require different commands!
+
+### 1.1. Install Docker
+```bash
 sudo apt update
 
 sudo apt install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
@@ -31,32 +33,34 @@ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubun
 sudo apt update
 
 sudo apt-get install docker-ce docker-ce-cli containerd.io
-
 ```
 
-2. Check if Docker is installed correctly
-
-```
+### 1.2. Check if Docker is installed correctly
+```bash
 sudo docker run hello-world
 ```
 
-3. Install Docker-Compose
+### 1.3. Install Docker-Compose
 
 Download the latest version (in this case it is 1.25.5, this may change whenever you read this tutorial!)
 
-```
+```bash
 sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
 sudo chmod +x /usr/local/bin/docker-compose
 ```
 
-4. Check if Docker-Compose is installed correctly
-
-```
+### 1.4. Check if Docker-Compose is installed correctly
+```bash
 sudo docker-compose --version
 ```
 
-5. Install mailcow-dockerized
+### 1.5. (optional) Add your linux user to the `docker` group
+```bash
+sudo usermod -aG docker $USER
+```
+
+## 2. Install mailcow-dockerized
 
 Clone mailcow into the `/opt` folder.
 
@@ -66,17 +70,17 @@ You can also use your personal home folder `/home/<your-username>`, this may req
 sudo git clone https://github.com/mailcow/mailcow-dockerized
 ```
 
-6. Generate your configuration file and follow the steps in the script.
+## 2.1. Generate your configuration file and follow the steps in the script.
 
 ```
 sudo ./generate_config.sh
 ```
 
-7. Enter your mailserver FQDN (this is your mailserver hostname, not your domain name)
+## 2.2. Enter your mailserver FQDN (this is your mailserver hostname, not your domain name)
 
-8. Select your timezone
+## 2.3. Select your timezone
 
-9. (optional) Insert custom SSL certificate
+## 2.4. (optional) Insert custom SSL certificate
 
 If you start "mailcow" it will automatically generate and request a letsencrypt certificate for your domains. If you don't want that, but instead use your own certificate you need to modify the `mailserver.conf` and change the line to:
 
@@ -84,13 +88,13 @@ If you start "mailcow" it will automatically generate and request a letsencrypt 
 SKIP_LETS_ENCRYPT=y
 ```
 
-10. Start mailcow
+## 2.5. Start mailcow
 
 ```
 sudo docker-compose up -d
 ```
 
-11. Login to mailcow
+## 2.6. Login to mailcow
 
 When all services are started successfully, you can now login to the admin dashboard and configure your domain, mailboxes, aliases, etc.
 
@@ -98,11 +102,11 @@ The admin dashboard can be accessed by `https://<your-mailservers-fqdn>`
 
 The default username is `admin`, and the password is `moohoo`
 
-12. Set up your domain(s)
+## 2.7. Set up your domain(s)
 
 You need to set up your domain first at `Configuration -> Mail Setup -> Domains`.
 
-13. Set up your mailbox(es)
+## 2.8. Set up your mailbox(es)
 
 If you want to configure your mailboxes, you can add them at `Configuration -> Mail Setup -> Mailboxes`.
 

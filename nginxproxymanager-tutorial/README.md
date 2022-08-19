@@ -60,12 +60,6 @@ sudo docker-compose --version
 sudo usermod -aG docker $USER
 ```
 
-### 1.6. Create a new Docker-Compose file
-
-Create a new folder in the `/opt` directory.
-
-You can also use your personal home folder `/home/<your-username>`, this may require different permissions.
-
 ## 2. Set up Nginx Proxy Manager
 
 ### 2.1. Create a new file `docker-compose.yml`file, please refer to the nginxproxymanager documentation: https://nginxproxymanager.com/guide/.
