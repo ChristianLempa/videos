@@ -1,5 +1,4 @@
-version:'3'
-
+version: "3"
 volumes:
   nextcloud-data:
   nextcloud-db:
@@ -12,8 +11,8 @@ networks:
     # add this if the network is already existing!
     # external: true
   backend:
-services:
 
+services:
   nextcloud-app:
     image: nextcloud
     restart: always
