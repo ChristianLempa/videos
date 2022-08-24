@@ -35,7 +35,7 @@
   - name: add userpermissions
     shell: "usermod -aG docker {{ lookup('env','USER') }}"
 
-  # Installs Docker SDK
+  # Installs Docker SDK and Docker-Compose
   # --
   # 
   - name: install python package manager

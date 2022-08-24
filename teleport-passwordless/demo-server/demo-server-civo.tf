@@ -17,6 +17,8 @@ terraform {
   }
 }
 
+# ---
+
 provider "civo" {
   token = var.civo_token
   region = "FRA1"
@@ -27,11 +29,29 @@ provider "cloudflare" {
   api_key =  var.cloudflare_api_key
 }
 
+# ---
+
+variable "civo_token" {
+    type = string
+    sensitive = true
+}
+
+variable "cloudflare_email" {
+    type = string
+}
+
+variable "cloudflare_api_key" {
+    type = string
+    sensitive = true
+}
+
+# ---
+
 data "cloudflare_zone" "clcreative" {
   name = "clcreative.de"
 }
 
-data "civo_size" "medium" {
+data "civo_size" "small" {
   filter {
     key = "name"
     values = ["g3.small"]
@@ -42,28 +62,30 @@ data "civo_size" "medium" {
 data "civo_disk_image" "ubuntu" {
   filter {
     key = "name"
-    values = ["ubuntu-focal"]
+    values = ["ubuntu-jammy"]
   }
 }
 
-data "civo_disk_image" "xcad-ssh" {
-  # ...
+data "civo_ssh_key" "ssh_xcad" {
+  name = "xcad"
 }
+
+# ---
+
+resource "civo_instance" "srv_teleport-demo" {
+  hostname = "teleport-demo.clcreative.de"
+  notes = "This is a demo server for the teleport-passwordless video."
+  size = element(data.civo_size.small.sizes, 0).name
+  disk_image = element(data.civo_disk_image.ubuntu.diskimages, 0).id
+  sshkey_id = data.civo_ssh_key.ssh_xcad.id
+}
+
+# ---
 
 resource "cloudflare_record" "dns_teleport-demo" {
   zone_id = data.cloudflare_zone.clcreative.id
   name = "teleport-demo.clcreative.de"
-  # value =  
+  value = civo_instance.srv_teleport-demo.public_ip
   type = "A"
   proxied = false
-}
-
-resource "civo_instance" "foo" {
-  # example
-  #
-  # hostname = "foo.com"
-  # tags = ["python", "nginx"]
-  # notes = "this is a note for the server"
-  # size = element(data.civo_instances_size.small.sizes, 0).name
-  # disk_image = element(data.civo_disk_image.debian.diskimages, 0).id
 }
