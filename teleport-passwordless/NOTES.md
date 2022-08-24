@@ -7,6 +7,11 @@ https://goteleport.com/docs/setup/reference/config/
 - You must have a valid domain and an FQDN that should match the `public_addr` in the teleport.yml config file
 - The ports 3023, 3024, 3025 and 443 needs to be accessible on the server
 
+## Demo Server
+
+
+terraform `demo-server/demo-server-civo.tf`, ansible playbook `demo-server/demo-server-install-docker.yml`
+
 ## Instructions
 
 1. Generate config file
