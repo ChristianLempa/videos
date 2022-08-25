@@ -13,15 +13,15 @@ Video: https://youtu.be/sr9pUpSAexE
 
 - Windows 10 with Microsoft Hyper-V enabled
 
-You can still use Vagrant Docker on Windows, Linux, or macOS using different Hypervisors like Virtualbox, ..., however, this may require different commands!
+*You can still use Vagrant Docker on Windows, Linux, or macOS using different Hypervisors like Virtualbox, ..., however, this may require different commands!*
 
 ## Installation and Configuration
 
-1. Download and Install Vagrant
+### Download and Install Vagrant
 
 Download Vagrant from the official Homepage https://www.vagrantup.com/downloads and follow the installation instructions.
 
-2. Set up a virtual machine deployment
+### Set up a virtual machine deployment
 
 Let's set up our first virtual machine deployment with Vagrant. You should create a new directory with enough disk space because Vagrant will store the configuration and virtual hard disk in this location. Then, we will initialize a new Vagrantfile with the following command.
 
@@ -31,7 +31,7 @@ vagrant init
 
 This will create a new Vagrantfile, we can easily inspect and customize. 
 
-3. Modify the Vagrantfile
+### Modify the Vagrantfile
 
 First, we need to change the configuration file to use a specific box. In this tutorial, we're using the `hashicorp/bionic64` box as a quick example. We edit the Vagrantfile and change the box with this line.
 
@@ -41,7 +41,7 @@ config.vm.box = "hashicorp/bionic64"
 ...
 ```
 
-4. (optional) Running Vagrant on Windows 10
+### (Optional) Running Vagrant on Windows 10
 
 If you're running Hyper-V on Windows 10, Microsoft recommends adding the following entries according to [this official Microsoft Blog-Post](https://docs.microsoft.com/en-us/virtualization/community/team-blog/2017/20170706-vagrant-and-hyper-v-tips-and-tricks).
 
@@ -59,7 +59,7 @@ end
 
 Note: If you're having an AMD processor like me, setting `enable_virtualization_extensions = true` will fail, because of the missing nested virtualization support in Windows 10! If this is the case, simply change it to false.
 
-5. Start the virtual machine
+### Start the virtual machine
 
 Now, we can simply start the creating and provisioning of your virtual machine via the console. To start a virtual machine with Vagrant execute this command in the console.
 
@@ -87,7 +87,7 @@ If you want to delete a virtual machine, simply type this command. Note that thi
 vagrant destroy
 ```
 
-6. Explore Vagrant Boxes
+### Explore Vagrant Boxes
 
 Probably, you want to install other Operating Systems like Windows Servers, Windows 10 or also other Linux distributions as well. You can find all those different boxes on the Vagrant box cataloge. Don't forget to filter the results for your desired provider. Otherwise, the results may not work on your hypervisor.
 
@@ -105,7 +105,7 @@ You can also manage boxes, for example remove them to clean up your system with 
 vagrant box remove <your-box-name>
 ```
 
-7. Manage virtual machines with vagrant
+### Manage virtual machines with vagrant
 
 Check what virtual machines are currently running with Vagrant using this command. This can be executed from any directory.
 

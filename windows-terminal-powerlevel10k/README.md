@@ -10,17 +10,17 @@ Video: https://youtu.be/235G6X5EAvM
 
 ## Installation and Configuration
 
-1. Install Windows Terminal
+### Install Windows Terminal
 
 https://docs.microsoft.com/en-us/windows/terminal/install
 
-2. Install Nerd Fonts
+### Install Nerd Fonts
 
 To make Windows Terminal able to render the icons we're using in **zsh** later, we need to install the **Nerd-Fonts** on Windows. First, go to the Nerd-Font homepage and select a Font you like. Note that not all of them work well with all zsh themes, you may need to try out different ones. Fonts that work for me are **Anonymice Nerd Font**, **Droid Sans Mono Nerd Font**, and **Hack Nerd Font**. Then, extract the archive and install all of the `.otf` Font files.
 
 https://www.nerdfonts.com/
 
-3. Install zsh shell in WSL / WSL2
+### Install zsh shell in WSL / WSL2
 
 Now we need to install the **zsh** shell in our wsl or wsl2. You can easily install it in the Ubuntu wsl by using the commands below. If you're using a different Linux distribution, you may check out the zsh documentation or your package a documentation.
 
@@ -34,7 +34,7 @@ sudo apt install zsh -y
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
-4. Install powerlevel10k zsh theme
+### Install powerlevel10k zsh theme
 
 Next, we will install the powerlevel10k theme, which really looks nice and offers great customization features. It also has a good configuration wizard that makes it extremely easy to set up the theme for your favorite design.
 
@@ -44,13 +44,13 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~
 
 To activate the theme you need to edit your `~/.zshrc` file in your personal folder and replace `ZSH_THEME="robbyrussel` with `ZSH_THEME="powerlevel10k/powerlevel10k`. After the change, you need to close and restart your terminal.
 
-5. Change Windows Terminal settings to use Nerd-Fonts
+### Change Windows Terminal settings to use Nerd-Fonts
 
 Because we want Windows Terminal to be able to render the icons in the powerlevel10k theme correctly, we need to change the Windows Terminal configuration to use the Nerd-Font we've downloaded before. Click on **Settings** in the Windows Terminal menu and edit the `settings.json` file with your favorite text editor.
 
 Find your wsl or wsl2 profile and add the line `"fontFace": "<name-of-your-font>"`.
 
-6. (optional) How to install or enable plugins in zsh
+### (Optional) How to install or enable plugins in zsh
 
 **Example: Auto-suggestion plugin**
 

@@ -16,11 +16,11 @@ Video: https://youtu.be/nk1jfIAL5qE
 
 You can still install Docker on a Linux Server that is not running Ubuntu, however, this may require different commands!
 
-## 1. Install Docker, and Docker-Compose
+## Install Docker, and Docker-Compose
 
 You can still install Docker on a Linux Server that is not running Ubuntu, however, this may require different commands!
 
-### 1.1. Install Docker
+### Install Docker
 ```bash
 sudo apt update
 
@@ -35,12 +35,12 @@ sudo apt update
 sudo apt-get install docker-ce docker-ce-cli containerd.io
 ```
 
-### 1.2. Check if Docker is installed correctly
+### Check if Docker is installed correctly
 ```bash
 sudo docker run hello-world
 ```
 
-### 1.3. Install Docker-Compose
+### Install Docker-Compose
 
 Download the latest version (in this case it is 1.25.5, this may change whenever you read this tutorial!)
 
@@ -50,19 +50,19 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 ```
 
-### 1.4. Check if Docker-Compose is installed correctly
+### Check if Docker-Compose is installed correctly
 ```bash
 sudo docker-compose --version
 ```
 
-### 1.5. (optional) Add your linux user to the `docker` group
+### (Optional) Add your linux user to the `docker` group
 ```bash
 sudo usermod -aG docker $USER
 ```
 
-## 2. Set up Teleport
+## Set up Teleport
 
-### 2.1. Create a new file `docker-compose.yml`file, please refer to the teleport documentation: https://goteleport.com/docs/getting-started/docker-compose/.
+### Create a new file `docker-compose.yml`file, please refer to the teleport documentation: https://goteleport.com/docs/getting-started/docker-compose/.
 
 First, we will need to install an authentication and proxy server. This will handle the whole authentication process for all nodes and clients. It also runs a proxy where we can connect to. You can connect to the proxy from a terminal client or via a web client. It also comes with other cool features, I will show you later. I’m running this in a cloud environment because I can easily access this server from anywhere and it’s flexible. But in theory, you could also run this in your home lab or on-premise.
 
@@ -101,13 +101,13 @@ services:
 
 Before you start the container you should change the `hostname` of both containers and set this to the Fully-qualified domain name of your server. You can still change it later in the configuration file, but if you set this up right from the beginning it makes things a lot easier. Then start the docker container with the following command.
 
-### 2.2. Start the Teleport Server
+### Start the Teleport Server
 
 ```bash
 
 ```
 
-### 2.3. Adjust the Config file
+### Adjust the Config file
 
 When we start this compose file, it will automatically create a default configuration and obtains self-signed certificates. Let’s make some adjustments in the configuration file, which is located in `./config/teleport.yaml`
 
@@ -165,7 +165,7 @@ After that restart your docker container with the following command.
 docker-compose up -d --force-recreate
 ```
 
-## 3. How to manage teleport and connect our SSH servers
+## How to manage teleport and connect our SSH servers
 
 Now, we will create a user on the teleport auth server. Every teleport user should also map to a user that exists on your nodes. But you can also assign multiple mappings.
 
@@ -179,9 +179,9 @@ This will create a registration token. With the registration token, we can now s
 
 Now you can simply connect to the docker node with the web interface by accessing `https://<your-fqdn>:3080`
 
-## 4. Add additional SSH servers to teleport
+## Add additional SSH servers to teleport
 
-### 4.1. Create a new access token
+### Create a new access token
 
 To add another node to the proxy server, we need to download and run the teleport client on a server. But first, we need to create a new token on the auth server.
 
@@ -189,7 +189,7 @@ To add another node to the proxy server, we need to download and run the telepor
 docker-compose exec teleport tctl nodes add
 ```
 
-### 4.2. Install Teleport on your new server
+### Install Teleport on your new server
 
 We could now just execute this command on the node, once teleport is downloaded. But I prefer to add this to a static configuration file, that allows me to run the teleport as a systemd service. Download the latest version of teleport and install the package on your node. In this example, I download the .deb package and install it on an Ubuntu server.
 
@@ -197,7 +197,7 @@ We could now just execute this command on the node, once teleport is downloaded.
 wget https://get.gravitational.com/teleport_4.3.7_amd64.deb
 ```
 
-### 4.3. Create a new config for your server
+### Create a new config for your server
 
 I also create a new configuration file `/etc/teleport.yaml` and add the following values:
 
@@ -227,7 +227,7 @@ proxy_service:
 advertise_ip: <servers-public-ip>
 ```
 
-### 4.4. Start the new server
+### Start the new server
 
 Now we can simply start the teleport service with the command:
 
@@ -237,7 +237,7 @@ sudo systemctl enable –now teleport
 
 If everything works successfully, you should be able to see the new node in the teleport proxy server.
 
-## 5. How to add SSH servers through a reverse tunnel to teleport
+## How to add SSH servers through a reverse tunnel to teleport
 
 I also want to test the reverse tunnel for my home lab servers. The trick is to use a teleport reverse tunnel that establishes a connection from inside the network to the cloud server. With this solution, you’re able to connect all SSH servers behind a NAT.
 

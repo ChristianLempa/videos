@@ -11,13 +11,13 @@ Video: https://youtu.be/bVKNSf1p1d0
 
 - Linux Server running Ubuntu 20.04 LTS or newer
 
+*For installing Docker on other Linux distriubtions or different versions than Ubuntu 20.04 LTS, follow the [official installation instructions](https://docs.docker.com/install/).*
+
+## Install Docker, and Docker-Compose
+
 You can still install Docker on a Linux Server that is not running Ubuntu, however, this may require different commands!
 
-## 1. Install Docker, and Docker-Compose
-
-You can still install Docker on a Linux Server that is not running Ubuntu, however, this may require different commands!
-
-### 1.1. Install Docker
+### Install Docker
 ```bash
 sudo apt update
 
@@ -32,12 +32,12 @@ sudo apt update
 sudo apt-get install docker-ce docker-ce-cli containerd.io
 ```
 
-### 1.2. Check if Docker is installed correctly
+### Check if Docker is installed correctly
 ```bash
 sudo docker run hello-world
 ```
 
-### 1.3. Install Docker-Compose
+### Install Docker-Compose
 
 Download the latest version (in this case it is 1.25.5, this may change whenever you read this tutorial!)
 
@@ -47,19 +47,19 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 ```
 
-### 1.4. Check if Docker-Compose is installed correctly
+### Check if Docker-Compose is installed correctly
 ```bash
 sudo docker-compose --version
 ```
 
-### 1.5. (optional) Add your linux user to the `docker` group
+### (Optional) Add your linux user to the `docker` group
 ```bash
 sudo usermod -aG docker $USER
 ```
 
 ## Set up Wireguard in Docker
 
-### 2.1. Create a new Docker-Compose file
+### Create a new Docker-Compose file
 
 Create a new folder in the `/opt` directory.
 
@@ -97,12 +97,12 @@ services:
     restart: unless-stopped
 ```
 
-### 2.2. Start the WireGuard Server
+### Start the WireGuard Server
 ```bash
 docker-compose up -d
 ```
 
-### 2.3. Distribute the config files to clients
+### Distribute the config files to clients
 
 You could also use the docker image for your clients. But I think it's more practical for a client to install WireGuard directly on the host OS. If you want to know how to do that, you can also refer to my article about WireGuard installation and configuration on Linux.
 
@@ -112,7 +112,7 @@ When you have started the WireGuard container, it should automatically create al
 docker exec -it wireguard /app/show-peer <peer-number>
 ```
 
-### 2.4. (optional) Add additional clients
+### (Optional) Add additional clients
 
 If you want to add additional clients, you simply can increase the PEERS parameter in the docker-compose.yaml file. After changing this value you need to restart your docker container with the `--force-recreate` parameter.
 

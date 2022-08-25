@@ -1,5 +1,4 @@
 # WireGuard installation and configuration - on Linux
-
 Let me show you, how to install and configure a basic VPN connection with WireGuard on a Linux server and client. We will also have a look at some advanced configuration settings like keep-alive and traffic routing.
 
 We will use the free and open-source VPN protocol WireGuard
@@ -12,11 +11,11 @@ Video: https://youtu.be/bVKNSf1p1d0
 
 - Linux Server running Ubuntu 20.04 LTS or newer
 
-You can still install Docker on a Linux Server that is not running Ubuntu, however, this may require different commands!
+*For installing WireGuard on other Linux distriubtions or different versions than Ubuntu 20.04 LTS, follow the [official installation instructions](https://www.wireguard.com/install/).*
 
 ## Installation and Configuration
 
-1. Install WireGuard
+### Install WireGuard
 
 To install WireGuard on Ubuntu 20.04 LTS we need to execute the following commands on the Server and Client.
 
@@ -24,7 +23,7 @@ To install WireGuard on Ubuntu 20.04 LTS we need to execute the following comman
 sudo apt install wireguard
 ```
 
-2. Create a private and public key on Server & Client
+### Create a private and public key on Server & Client
 
 Before we can establish a secure tunnel with WireGuard we need to create a private and public key on both, Server and Client first. WireGuard comes with a simple tool that can easily generate these keys. Execute this on the Server and Client.
 
@@ -34,7 +33,7 @@ wg genkey | tee privatekey | wg pubkey > publickey
 
 Be aware, you ***MUST NOT SHARE*** the private key with anyone! Make sure to store it in a secure way on both devices.
 
-3. Configure the Server
+### Configure the Server
 
 Now you can configure the server, just add a new file called `/etc/wireguard/wg0.conf`. Insert the following configuration lines and replace the `<server-private-key>` placeholder with the previously generated private key.
 
@@ -50,7 +49,7 @@ PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING 
 ListenPort = 51820
 ```
 
-4. Configure the Client
+### Configure the Client
 
 Now, we need to configure the client. Create a new file called `/etc/wireguard/wg0.conf`. Insert the following configuration lines and replace the `<client-private-key>` placeholder with the previously generated private key.
 
@@ -82,7 +81,7 @@ You can check the status of the connection with this command.
 wg
 ```
 
-5. Add Client to the Server
+### Add Client to the Server
 
 Next, you need to add the client to the server configuration file. Otherwise, the tunnel will not be established. Replace the `<client-public-key>` with the clients generated public key and the `<client-ip-address>` with the client's IP address on the wg0 interface.
 

@@ -3,7 +3,6 @@ How to update docker container automatically with Watchtower. Scheduled updates 
 
 We will use the free and open-source software Watchtower.
 
-
 Project Homepage: https://containrrr.dev/watchtower/
 
 Video: https://youtu.be/5lP_pdjcVMo
