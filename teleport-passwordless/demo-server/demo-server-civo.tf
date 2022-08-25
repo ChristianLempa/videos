@@ -77,6 +77,7 @@ resource "civo_instance" "srv_teleport-demo" {
   notes = "This is a demo server for the teleport-passwordless video."
   size = element(data.civo_size.small.sizes, 0).name
   disk_image = element(data.civo_disk_image.ubuntu.diskimages, 0).id
+  initial_user = "xcad"
   sshkey_id = data.civo_ssh_key.ssh_xcad.id
 }
 
