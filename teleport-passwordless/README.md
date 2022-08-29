@@ -111,3 +111,8 @@ You can also add a multifactor hardwarekey via tsh.
 ```bash
 tsh mfa add
 ```
+
+### (Optional) Use touchid in Mac OS
+
+//TODO add description for touchid
+
