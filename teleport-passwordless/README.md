@@ -72,11 +72,42 @@ Check if the server has been started successfully.
 docker-compose ps
 ```
 
-## Configure User
+## Create user
 
-### Create user
+//TODO description text
 
 ```
 docker exec -it teleport tctl users add xcad --roles=editor --logins=root,xcad
 ```
-//REVIEW Work in Progress
+
+//TODO steps in the web ui
+
+## Passwordless authentication
+
+### Enable passwordless in teleport
+
+Change the following fields in the teleport config file `.config/teleport.yml`.
+
+```
+auth_service:
+  enabled: "yes"
+  listen_addr: 0.0.0.0:3025
+  proxy_listener_mode: multiplex
+  cluster_name: <your-servers-fqdn>
+  authentication:
+    type: local
+    second_factor: on
+    webauthn:
+      rp_id: <your-servers-fqdn>
+    connector_name: passwordless
+```
+
+### Add a passwordless multifactor hardwarekey
+
+//TODO add steps in the web ui
+
+You can also add a multifactor hardwarekey via tsh.
+
+```bash
+tsh mfa add
+```
