@@ -1,4 +1,4 @@
-*.terraform
-*.terraform.lock.hcl
+.terraform
+.terraform.lock.hcl
 .final
 .wip
