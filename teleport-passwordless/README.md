@@ -25,7 +25,7 @@ Video: //REVIEW Work in Progress
 Generate a teleport config file `.config/teleport.yml` from scratch.
 
 ```bash
-docker run --hostname localhost --rm --platform linux/amd64 --entrypoint=/bin/sh -v /Users/xcad/Projects/videos/teleport-passwordless/config:/etc/teleport -it quay.io/gravitational/teleport:10 -c "teleport configure > /etc/teleport/teleport.yaml"
+docker run --hostname localhost --rm --platform linux/amd64 --entrypoint=/bin/sh -v /Users/xcad/Projects/videos/teleport-passwordless/config:/etc/teleport -it quay.io/gravitational/teleport:10 -c "teleport configure > /etc/teleport/teleport.yml"
 ```
 
 Change the following fields in the teleport config file `.config/teleport.yml`.
