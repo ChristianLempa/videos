@@ -30,7 +30,7 @@ sudo apt install podman
 ### 1.2. Install Podman-Compose
 
 ```
-sudo apt install pyton3-pip
+sudo apt install python3-pip
 pip3 install podman-compose
 ```
 
