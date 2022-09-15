@@ -1,12 +1,12 @@
 # Teleport Passwordless
-Description //REVIEW Work in Progress
+The best password is NO password! Let's add my new YubiKey as a passwordless authentication method in Teleport. That allows me to access all my Linux Servers, Kubernetes Clusters, Web Applications, Databases and RDP without remembering any password (but still is much more secure!)
 
 We will use the free and open-source software teleport.
 
 Project Homepage: https://goteleport.com
 Documentation: https://goteleport.com/docs/access-controls/guides/passwordless/
 
-Video: //REVIEW Work in Progress
+Video: https://youtu.be/I10mtZfVZ1Q
 
 ## Prerequisites
 
