@@ -2,7 +2,7 @@
 
 Hi, there! 👋
 
-I’m Christian, a 35 years old tech enthusiast from Germany, and I love to inspire and educate people in IT.
+I’m Christian, a 35 year-old tech enthusiast from Germany, and I love to inspire and educate people in IT.
 
 This Repository **Video** is my video documentation. Here you'll find code-snippets, technical documentation, templates, command reference, and whatever is needed for all my YouTube Videos.
 
