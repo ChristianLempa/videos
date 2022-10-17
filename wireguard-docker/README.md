@@ -5,7 +5,7 @@ We will use the free and open-source VPN protocol WireGuard
 
 Project Homepage: https://www.wireguard.com/
 
-Video: https://youtu.be/bVKNSf1p1d0
+Video: https://youtu.be/GZRTnP4lyuo
 
 ## Prerequisites
 
