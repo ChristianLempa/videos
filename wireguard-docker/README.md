@@ -1,11 +1,11 @@
-# WireGuard installation and configuration - on Linux
+# WireGuard installation and configuration - in Docker
 In this tutorial, I will show you how to easily create your own private VPN server with WireGuard running in a Docker container. I will walk you step by step through the installation, configuration, and how to add clients to your VPN server.
 
 We will use the free and open-source VPN protocol WireGuard
 
 Project Homepage: https://www.wireguard.com/
 
-Video: https://youtu.be/bVKNSf1p1d0
+Video: https://youtu.be/GZRTnP4lyuo
 
 ## Prerequisites
 
