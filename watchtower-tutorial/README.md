@@ -42,5 +42,5 @@ docker run -d --label=com.centurylinklabs.watchtower.enable= false nginx
 ## Scheduled Updates and clean up old images
 
 ```bash
-docker run --name watchtower -v /var/run/docker.sock:/var/run/docker.sock --restart unless-stopped containrrr/watchtower --schedule "0 0 4 * * *" --debug
+docker run --name watchtower -v /var/run/docker.sock:/var/run/docker.sock --restart unless-stopped containrrr/watchtower --schedule "0 0 4 * * *" --debug --cleanup
 ```
