@@ -1,0 +1,46 @@
+version: '3.9'
+
+volumes:
+  passbolt-db:
+  passbolt-gpg:
+  passbolt-jwt:
+
+services:
+  db:
+    image: mariadb:10.3
+    restart: unless-stopped
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "true"
+      MYSQL_DATABASE: $MYSQL_DATABASE
+      MYSQL_USER: $MYSQL_USER
+      MYSQL_PASSWORD: $MYSQL_PASSWORD
+    volumes:
+      - database_volume:/var/lib/mysql
+
+  passbolt:
+    image: passbolt/passbolt:latest-ce
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      # Replace API_FULL_BASE_URL with your real FQDN
+      APP_FULL_BASE_URL: $APP_FULL_BASE_URL
+      DATASOURCES_DEFAULT_HOST: $DATASOURCES_DEFAULT_HOST
+      DATASOURCES_DEFAULT_USERNAME: $DATASOURCES_DEFAULT_USERNAME
+      DATASOURCES_DEFAULT_PASSWORD: $DATASOURCES_DEFAULT_PASSWORD
+      DATASOURCES_DEFAULT_DATABASE: $DATASOURCES_DEFAULT_DATABASE
+      # Replace with your mail server config
+      # EMAIL_DEFAULT_FROM_NAME: $EMAIL_DEFAULT_FROM_NAME
+      # EMAIL_DEFAULT_FROM: $EMAIL_DEFAULT_FROM
+      # EMAIL_TRANSPORT_DEFAULT_HOST: $EMAIL_TRANSPORT_DEFAULT_HOST
+      # EMAIL_TRANSPORT_DEFAULT_PORT: 587
+      # EMAIL_TRANSPORT_DEFAULT_USERNAME: $EMAIL_TRANSPORT_DEFAULT_USERNAME
+      # EMAIL_TRANSPORT_DEFAULT_PASSWORD: $EMAIL_TRANSPORT_DEFAULT_PASSWORD
+      # EMAIL_TRANSPORT_DEFAULT_TLS: true
+    volumes:
+      - gpg_volume:/etc/passbolt/gpg
+      - jwt_volume:/etc/passbolt/jwt
+    command: ["/usr/bin/wait-for.sh", "-t", "0", "db:3306", "--", "/docker-entrypoint.sh"]
+    ports:
+      - 80:80
+      - 443:443
