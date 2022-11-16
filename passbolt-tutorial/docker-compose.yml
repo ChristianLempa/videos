@@ -6,7 +6,7 @@ volumes:
   passbolt-jwt:
 
 services:
-  db:
+  passbolt-db:
     image: mariadb:10.3
     restart: unless-stopped
     environment:
@@ -17,7 +17,7 @@ services:
     volumes:
       - database_volume:/var/lib/mysql
 
-  passbolt:
+  passbolt-app:
     image: passbolt/passbolt:latest-ce
     restart: unless-stopped
     depends_on:
@@ -25,10 +25,10 @@ services:
     environment:
       # Replace API_FULL_BASE_URL with your real FQDN
       APP_FULL_BASE_URL: $APP_FULL_BASE_URL
-      DATASOURCES_DEFAULT_HOST: $DATASOURCES_DEFAULT_HOST
-      DATASOURCES_DEFAULT_USERNAME: $DATASOURCES_DEFAULT_USERNAME
-      DATASOURCES_DEFAULT_PASSWORD: $DATASOURCES_DEFAULT_PASSWORD
-      DATASOURCES_DEFAULT_DATABASE: $DATASOURCES_DEFAULT_DATABASE
+      DATASOURCES_DEFAULT_HOST: "passbolt-db"
+      DATASOURCES_DEFAULT_USERNAME: $MYSQL_USER
+      DATASOURCES_DEFAULT_PASSWORD: $MYSQL_PASSWORD
+      DATASOURCES_DEFAULT_DATABASE: $MYSQL_DATABASE
       # Replace with your mail server config
       # EMAIL_DEFAULT_FROM_NAME: $EMAIL_DEFAULT_FROM_NAME
       # EMAIL_DEFAULT_FROM: $EMAIL_DEFAULT_FROM
