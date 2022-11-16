@@ -1,5 +1,10 @@
 version: '3.9'
 
+volumes:
+  database_volume:
+  gpg_volume:
+  jwt_volume:
+
 services:
   db:
     image: mariadb:10.3
