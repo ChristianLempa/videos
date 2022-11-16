@@ -15,7 +15,7 @@ services:
       MYSQL_USER: $MYSQL_USER
       MYSQL_PASSWORD: $MYSQL_PASSWORD
     volumes:
-      - database_volume:/var/lib/mysql
+      - passbolt-db:/var/lib/mysql
 
   passbolt-app:
     image: passbolt/passbolt:latest-ce
