@@ -21,7 +21,7 @@ services:
     image: passbolt/passbolt:latest-ce
     restart: unless-stopped
     depends_on:
-      - db
+      - passbolt-db
     environment:
       # Replace API_FULL_BASE_URL with your real FQDN
       APP_FULL_BASE_URL: $APP_FULL_BASE_URL
