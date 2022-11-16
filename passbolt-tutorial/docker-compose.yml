@@ -1,12 +1,7 @@
 version: '3.9'
 
-volumes:
-  passbolt-db:
-  passbolt-gpg:
-  passbolt-jwt:
-
 services:
-  passbolt-db:
+  db:
     image: mariadb:10.3
     restart: unless-stopped
     environment:
@@ -15,17 +10,17 @@ services:
       MYSQL_USER: $MYSQL_USER
       MYSQL_PASSWORD: $MYSQL_PASSWORD
     volumes:
-      - passbolt-db:/var/lib/mysql
+      - database_volume:/var/lib/mysql
 
-  passbolt-app:
+  passbolt:
     image: passbolt/passbolt:latest-ce
     restart: unless-stopped
     depends_on:
-      - passbolt-db
+      - db
     environment:
       # Replace API_FULL_BASE_URL with your real FQDN
       APP_FULL_BASE_URL: $APP_FULL_BASE_URL
-      DATASOURCES_DEFAULT_HOST: "passbolt-db"
+      DATASOURCES_DEFAULT_HOST: "db"
       DATASOURCES_DEFAULT_USERNAME: $MYSQL_USER
       DATASOURCES_DEFAULT_PASSWORD: $MYSQL_PASSWORD
       DATASOURCES_DEFAULT_DATABASE: $MYSQL_DATABASE
@@ -38,8 +33,8 @@ services:
       # EMAIL_TRANSPORT_DEFAULT_PASSWORD: $EMAIL_TRANSPORT_DEFAULT_PASSWORD
       # EMAIL_TRANSPORT_DEFAULT_TLS: true
     volumes:
-      - passbolt-gpg:/etc/passbolt/gpg
-      - passbolt-jwt:/etc/passbolt/jwt
+      - gpg_volume:/etc/passbolt/gpg
+      - jwt_volume:/etc/passbolt/jwt
     command: ["/usr/bin/wait-for.sh", "-t", "0", "db:3306", "--", "/docker-entrypoint.sh"]
     ports:
       - 80:80
