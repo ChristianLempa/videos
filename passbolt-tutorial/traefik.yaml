@@ -1,0 +1,39 @@
+global:
+  sendAnonymousUsage: false
+log:
+  level: INFO
+  format: common
+providers:
+  docker:
+    endpoint: 'unix:///var/run/docker.sock'
+    watch: true
+    exposedByDefault: true
+    swarmMode: false
+  file:
+    directory: /etc/traefik/conf/
+    watch: true
+api:
+  dashboard: false
+  debug: false
+  insecure: false
+entryPoints:
+  web:
+    address: ':80'
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+          permanent: true
+  websecure:
+    address: ':443'
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: yourname@domain.tld
+      storage: /shared/acme.json
+      caServer: 'https://acme-v02.api.letsencrypt.org/directory'
+      keyType: EC256
+      httpChallenge:
+        entryPoint: web
+      tlsChallenge: {}
