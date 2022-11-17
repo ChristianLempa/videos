@@ -1,19 +1,14 @@
 version: '3.9'
 
-volumes:
-  database_volume:
-  gpg_volume:
-  jwt_volume:
-
 services:
   db:
     image: mariadb:10.3
     restart: unless-stopped
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=true
-      - MYSQL_DATABASE=$MYSQL_DATABASE
-      - MYSQL_USER=$MYSQL_USER
-      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+      - MYSQL_DATABASE=passbolt
+      - MYSQL_USER=passbolt
+      - MYSQL_PASSWORD=P4ssb0lt
     volumes:
       - database_volume:/var/lib/mysql
 
@@ -23,18 +18,17 @@ services:
     depends_on:
       - db
     environment:
-      - APP_FULL_BASE_URL=$APP_FULL_BASE_URL
+      - APP_FULL_BASE_URL=https://passbolt.domain.tld
       - DATASOURCES_DEFAULT_HOST=db
-      - DATASOURCES_DEFAULT_USERNAME=$MYSQL_USER
-      - DATASOURCES_DEFAULT_PASSWORD=$MYSQL_PASSWORD
-      - DATASOURCES_DEFAULT_DATABASE=$MYSQL_DATABASE
-      - EMAIL_DEFAULT_FROM_NAME=$EMAIL_DEFAULT_FROM_NAME
-      - EMAIL_DEFAULT_FROM=$EMAIL_DEFAULT_FROM
-      - EMAIL_TRANSPORT_DEFAULT_HOST=$EMAIL_TRANSPORT_DEFAULT_HOST
+      - DATASOURCES_DEFAULT_USERNAME=passbolt
+      - DATASOURCES_DEFAULT_PASSWORD=P4ssb0lt
+      - DATASOURCES_DEFAULT_DATABASE=passbolt
+      - EMAIL_TRANSPORT_DEFAULT_HOST=your-mail-server
       - EMAIL_TRANSPORT_DEFAULT_PORT=587
       - EMAIL_TRANSPORT_DEFAULT_USERNAME=$EMAIL_TRANSPORT_DEFAULT_USERNAME
       - EMAIL_TRANSPORT_DEFAULT_PASSWORD=$EMAIL_TRANSPORT_DEFAULT_PASSWORD
       - EMAIL_TRANSPORT_DEFAULT_TLS=true
+      - EMAIL_DEFAULT_FROM=no-reply@domain.tld
     volumes:
       - gpg_volume:/etc/passbolt/gpg
       - jwt_volume:/etc/passbolt/jwt
@@ -48,11 +42,11 @@ services:
       traefik.http.routers.passbolt-https.entrypoints: "websecure"
       traefik.http.routers.passbolt-https.rule: "Host(`passbolt.domain.tld`)"
       traefik.http.routers.passbolt-https.tls: "true"
-      traefik.http.routers.passbolt-https.tls.certresolver: "letsencrypt"
-  
+      traefik.http.routers.passbolt-https.tls.certresolver: "cloudflare"
+
   traefik:
     image: traefik:2.6
-    restart: unless-stopped
+    restart: always
     ports:
       - 80:80
       - 443:443
@@ -61,3 +55,11 @@ services:
       - ./traefik.yaml:/traefik.yaml:ro
       - ./conf/:/etc/traefik/conf
       - ./shared/:/shared
+    environment:
+      - CF_API_EMAIL=$CF_API_EMAIL
+      - CF_API_KEY=$CF_API_KEY
+
+volumes:
+  database_volume:
+  gpg_volume:
+  jwt_volume:

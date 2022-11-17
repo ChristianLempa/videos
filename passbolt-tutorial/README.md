@@ -1,8 +1,5 @@
 # An open source Password Manager built for Teams
-// WIP
-
-We will use the free and open-source software Passbolt.
-
+In this Tutorial we setup a free and open-source password manager for your home labs, or professional it teams, such as devops, sysadmins, and so on. We will deploy passbolt on a docker server and configure a mail server and trusted SSL certificates by using traefik and letsencrypt.
 
 Project Homepage: https://www.passbolt.com
 
@@ -25,28 +22,74 @@ For further References, how to use **Docker**, **Docker-Compose** and **Traefik*
 
 ### Create Docker-Compose file
 
-Copy the example `docker-compose.yml` file in your project directory, and create a new  `.env` file to customize environment variables and credentials.
+Copy the example `docker-compose.yml` file in your project directory, and make sure you replace the `APP_FULL_BASE_URL` value with your passbolt's server FQDN.
 
-**Example `.env`:**
-```
-MYSQL_DATABASE=passbolt
-MYSQL_USER=passbolt
-MYSQL_PASSWORD=your-secret-password
-APP_FULL_BASE_URL=https://passbolt.domain.tld
-```
+**Example `docker-compose.yml`**:
+```yml
+...
+version: '3.9'
 
-Make sure, you replace the `APP_FULL_BASE_URL` value with your passbolt's server FQDN.
+services:
+  db:
+    image: mariadb:10.3
+    restart: unless-stopped
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+      - MYSQL_DATABASE=passbolt
+      - MYSQL_USER=passbolt
+      - MYSQL_PASSWORD=P4ssb0lt
+    volumes:
+      - database_volume:/var/lib/mysql
+
+  passbolt:
+    image: passbolt/passbolt:latest-ce
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      - APP_FULL_BASE_URL=https://passbolt.domain.tld
+      - DATASOURCES_DEFAULT_HOST=db
+      - DATASOURCES_DEFAULT_USERNAME=passbolt
+      - DATASOURCES_DEFAULT_PASSWORD=P4ssb0lt
+      - DATASOURCES_DEFAULT_DATABASE=passbolt
+    volumes:
+      - gpg_volume:/etc/passbolt/gpg
+      - jwt_volume:/etc/passbolt/jwt
+    command: ["/usr/bin/wait-for.sh", "-t", "0", "db:3306", "--", "/docker-entrypoint.sh"]
+
+volumes:
+  database_volume:
+  gpg_volume:
+  jwt_volume:
+
+...
+```
 
 ### Mail Server Configuration
 
 Passbolt sends recovery instructions and notifications via email. Therefore, it's important you configure an email account that is allowed to send emails to the users.
 
+**Example `docker-compose.yml`**:
+```yml
+...
+  passbolt:
+    ...
+    environment:
+      ...
+      - EMAIL_TRANSPORT_DEFAULT_HOST=your-mail-server
+      - EMAIL_TRANSPORT_DEFAULT_PORT=587
+      - EMAIL_TRANSPORT_DEFAULT_USERNAME=$EMAIL_TRANSPORT_DEFAULT_USERNAME
+      - EMAIL_TRANSPORT_DEFAULT_PASSWORD=$EMAIL_TRANSPORT_DEFAULT_PASSWORD
+      - EMAIL_TRANSPORT_DEFAULT_TLS=true
+      - EMAIL_DEFAULT_FROM=no-reply@domain.tld
+...
+```
+
+If you want to store your mail server credentials in a secure place, create an `.env` file in the project directory.
+
 **Example `.env`:**
 ```
 ...
-EMAIL_DEFAULT_FROM_NAME=Passbolt
-EMAIL_DEFAULT_FROM=no-reply@domain.tld
-EMAIL_TRANSPORT_DEFAULT_HOST=smtp.office365.com
 EMAIL_TRANSPORT_DEFAULT_USERNAME=mailuser
 EMAIL_TRANSPORT_DEFAULT_PASSWORD=your-secret-mailuser-password
 ```

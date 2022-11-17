@@ -7,7 +7,7 @@ providers:
   docker:
     endpoint: 'unix:///var/run/docker.sock'
     watch: true
-    exposedByDefault: true
+    exposedByDefault: false
     swarmMode: false
   file:
     directory: /etc/traefik/conf/
@@ -28,12 +28,14 @@ entryPoints:
   websecure:
     address: ':443'
 certificatesResolvers:
-  letsencrypt:
+  cloudflare:
     acme:
-      email: yourname@domain.tld
+      email: mail@domain.tld
       storage: /shared/acme.json
       caServer: 'https://acme-v02.api.letsencrypt.org/directory'
       keyType: EC256
-      httpChallenge:
-        entryPoint: web
-      tlsChallenge: {}
+      dnsChallenge:
+        provider: cloudflare
+        resolvers:
+          - "1.1.1.1:53"
+          - "8.8.8.8:53"
