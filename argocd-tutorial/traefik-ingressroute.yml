@@ -23,7 +23,7 @@ spec:
   tls:
     secretName: argocd-tls-secret
 ---
-apiVersion: cert-manager.io/v1
+apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
   name: argocd-cert
