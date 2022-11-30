@@ -14,7 +14,19 @@ For further References, how to deploy **TrueNAS Scale** with **TrueCharts**, che
 - [TrueNAS Scale the ULTIMATE Home Server? Docker, Kubernetes, Apps](https://youtu.be/LJY9KBbL4j0)
 
 ---
-## WIP
+## Setting up an IP Address
+
+### WIP
+
+## Setting up Certificates
+
+### WIP
+
+## Install Traefik
+
+### WIP
+
+## Deploy a test application
 
 ### WIP
 
