@@ -1,0 +1,65 @@
+version: '3.9'
+
+services:
+  db:
+    image: mariadb:10.3
+    restart: unless-stopped
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+      - MYSQL_DATABASE=passbolt
+      - MYSQL_USER=passbolt
+      - MYSQL_PASSWORD=P4ssb0lt
+    volumes:
+      - database_volume:/var/lib/mysql
+
+  passbolt:
+    image: passbolt/passbolt:latest-ce
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      - APP_FULL_BASE_URL=https://passbolt.domain.tld
+      - DATASOURCES_DEFAULT_HOST=db
+      - DATASOURCES_DEFAULT_USERNAME=passbolt
+      - DATASOURCES_DEFAULT_PASSWORD=P4ssb0lt
+      - DATASOURCES_DEFAULT_DATABASE=passbolt
+      - EMAIL_TRANSPORT_DEFAULT_HOST=your-mail-server
+      - EMAIL_TRANSPORT_DEFAULT_PORT=587
+      - EMAIL_TRANSPORT_DEFAULT_USERNAME=$EMAIL_TRANSPORT_DEFAULT_USERNAME
+      - EMAIL_TRANSPORT_DEFAULT_PASSWORD=$EMAIL_TRANSPORT_DEFAULT_PASSWORD
+      - EMAIL_TRANSPORT_DEFAULT_TLS=true
+      - EMAIL_DEFAULT_FROM=no-reply@domain.tld
+    volumes:
+      - gpg_volume:/etc/passbolt/gpg
+      - jwt_volume:/etc/passbolt/jwt
+    command: ["/usr/bin/wait-for.sh", "-t", "0", "db:3306", "--", "/docker-entrypoint.sh"]
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.passbolt-http.entrypoints: "web"
+      traefik.http.routers.passbolt-http.rule: "Host(`passbolt.domain.tld`)"
+      traefik.http.routers.passbolt-http.middlewares: "SslHeader@file"
+      traefik.http.routers.passbolt-https.middlewares: "SslHeader@file"
+      traefik.http.routers.passbolt-https.entrypoints: "websecure"
+      traefik.http.routers.passbolt-https.rule: "Host(`passbolt.domain.tld`)"
+      traefik.http.routers.passbolt-https.tls: "true"
+      traefik.http.routers.passbolt-https.tls.certresolver: "cloudflare"
+
+  traefik:
+    image: traefik:2.6
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik.yaml:/traefik.yaml:ro
+      - ./conf/:/etc/traefik/conf
+      - ./shared/:/shared
+    environment:
+      - CF_API_EMAIL=$CF_API_EMAIL
+      - CF_API_KEY=$CF_API_KEY
+
+volumes:
+  database_volume:
+  gpg_volume:
+  jwt_volume:
