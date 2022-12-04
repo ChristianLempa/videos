@@ -16,13 +16,19 @@ For further References, how to deploy **TrueNAS Scale** with **TrueCharts**, che
 ---
 ## Setting up an ip address
 
-When using Traefik on TrueNAS Scale, it can be useful to add an alias ip address, that will be used as the primary ip address for kubernetes load balancers.
+When using Traefik on TrueNAS Scale, it can be useful to add an alias ip address, hence the ports `80`, and `443` are already used by the default truenas scale web ui. Your alias ip can be used as the primary ip address for kubernetes load balancers to use port `80`, and `443` for Traefik.
 
 IP Addresses are managed under **Network -> Interfaces**. 
 
 ### Add an alias ip address to the primary interface
 
 Under **IP Addresses**, add an **Alias**.
+
+### Change kubernetes ip address
+
+Under **Apps -> Settings -> Advanced Settings**, change the **Node IP** to your alias ip address.
+
+All future load balancers deployed in Kubernetes will use this new **Node IP**.
 
 ## Setting up certificates
 
@@ -32,14 +38,14 @@ Both, ACME, and self-sigend certficiates will work.
 
 Certificates are managed under **Credentials -> Certificates**.
 
-### Option 1: Add a new self-signed certificate (WIP)
+### Option 1: Add a new self-signed certificate
 
 Under **Certificates**, add a **Certificate**.
 
 1. Select **Import Certificate**.
 2. Upload your **Certificiate**, and **Private Key**.
 
-### Option 2: Issue a new certificate via ACME (WIP)
+### Option 2: Issue a new certificate via ACME
 
 Under **ACME DNS-Authenticators**, add a **DNS Authenticator**.
 
@@ -53,9 +59,27 @@ Under **Certificate Signing Requests**, add a **Certificate Signing Request**.
 3. Enter your Certificate Subject Details
 4. Enter your Subject Alternative Names according to your domain, you can also add a wilcard in here (`*.local`, or `*.domain.tld`).
 
-## Install Traefik
+Under **Certificate Signing Requests**, select your **Certificate Signing Request** and create an **ACME Certificate**.
 
-### WIP
+1. Accept **Terms of Service** and chose your **Renew Certificate Days**.
+2. Select **Production**, or **Staging** in **ACME Server Directory URI**.
+3. Add your **Domain**, and select your **Authenticator**.
+
+## Install Traefik WIP
+
+Applications are managed under **Apps -> Available Applications**. 
+
+*This tutorial needs additional TrueNAS Scale Charts from the Community Repo TrueCharts. Follow the instructions described on the official website of [TrueCharts ](https://truecharts.org), to add the Community Repo to your TrueNAS Scale Charts.* 
+
+### Deploy Traefik as a new application
+
+1. Create a new application using the Traefik Truecharts Deployment
+2. Select your **desired replicas**, and the correct **timezone**.
+3. Enable **ingressClass**, and **isDefaultClass**.
+4. (Optional) change the **Main Entrypoints**, **Service Type** to **ClusterIP** to protect the web interface of Traefik.
+5. Change the **web Entrypoints**, **Entrypoint Port** to `80`.
+6. Change the **websecure Entrypoints**, **Entrypoint Port** to `443`.
+7. (Optional) change other settings according to your environment.
 
 ## Deploy a test application
 
@@ -64,4 +88,4 @@ Under **Certificate Signing Requests**, add a **Certificate Signing Request**.
 ---
 ## References
 
-- [WIP](url)
+- [TrueCharts ](https://truecharts.org)
