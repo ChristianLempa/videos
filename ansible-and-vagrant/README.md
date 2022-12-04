@@ -67,21 +67,21 @@ Since we already have configured Ansible to manage our remote server, why should
 Now we're ready to deploy our first Docker container with Ansible! Create a new Ansible Playbook YAML file in your project folder, that should look like this.
 
 ```yml
-- hosts: all
-  become: yes
-  tasks:
+- hosts: all
+  become: yes
+  tasks:
 
-    - name: Deploy Portainer
-      community.docker.docker_container:
-        name: portainer
-        image: portainer/portainer-ce
-        ports:
-          - "9000:9000"
-          - "8000:8000"
-        volumes:
-          - /var/run/docker.sock:/var/run/docker.sock
-          - portainer_data:/data
-        restart_policy: always
+    - name: Deploy Portainer
+      community.docker.docker_container:
+        name: portainer
+        image: portainer/portainer-ce
+        ports:
+          - "9000:9000"
+          - "8000:8000"
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+          - portainer_data:/data
+        restart_policy: always
 ```
 
 ### 3.2. Run Ansible Playbook
@@ -99,14 +99,14 @@ ansible-playbook <playbook-file.yaml>
 To run our second Docker container, we simply can just add another task inside the same Ansible Playbook. Because Ansible will take care of which Containers are already deployed and if there are any changes to be made. And it only re-deploys containers if there are changes being made.
 
 ```yml
-    - name: Deploy Watchtower
-      community.docker.docker_container:
-        name: watchtower
-        image: containrrr/watchtower
-        command: --schedule "0 0 4 * * *" --debug
-        volumes:
-          - /var/run/docker.sock:/var/run/docker.sock
-        restart_policy: always
+    - name: Deploy Watchtower
+      community.docker.docker_container:
+        name: watchtower
+        image: containrrr/watchtower
+        command: --schedule "0 0 4 * * *" --debug
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+        restart_policy: always
 ```
 
 Simply run the Playbook with the same command above again. You can see that the task "Portainer" is not executed again, only our new task "Watchtower".
@@ -120,43 +120,43 @@ Let's also deploy two more containers, to automate the deployment of my webserve
 We also need to create a new Network before running the Containers. Otherwise, WordPress will not be able to connect to the Database Container. Therefore we also need to attach them to the same Network.
 
 ```yml
-- hosts: all
-  become: yes
-  tasks:
+- hosts: all
+  become: yes
+  tasks:
 
-    - name: Create Network
-      community.docker.docker_network:
-        name: wordpress
+    - name: Create Network
+      community.docker.docker_network:
+        name: wordpress
 
-    - name: Deploy Wordpress
-      community.docker.docker_container:
-        name: wordpress
-        image: wordpress:latest
-        ports:
-          - "80:80"
-        networks:
-          - name: wordpress
-        volumes:
-          - wordpress:/var/www/html
-        env:
-          WORDPRESS_DB_HOST: "db"
-          WORDPRESS_DB_USER: "exampleuser"
-          WORDPRESS_DB_PASSWORD: "examplepass"
-          WORDPRESS_DB_NAME: "exampledb"
-        restart_policy: always
+    - name: Deploy Wordpress
+      community.docker.docker_container:
+        name: wordpress
+        image: wordpress:latest
+        ports:
+          - "80:80"
+        networks:
+          - name: wordpress
+        volumes:
+          - wordpress:/var/www/html
+        env:
+          WORDPRESS_DB_HOST: "db"
+          WORDPRESS_DB_USER: "exampleuser"
+          WORDPRESS_DB_PASSWORD: "examplepass"
+          WORDPRESS_DB_NAME: "exampledb"
+        restart_policy: always
 
-    - name: Deploy MYSQL
-      community.docker.docker_container:
-        name: db
-        image: mysql:5.7
-        networks:
-          - name: wordpress
-        volumes:
-          - db:/var/lib/mysql
-        env:
-          MYSQL_DATABASE: "exampledb"
-          MYSQL_USER: "exampleuser"
-          MYSQL_PASSWORD: "examplepass"
-          MYSQL_RANDOM_ROOT_PASSWORD: '1'
-        restart_policy: always
+    - name: Deploy MYSQL
+      community.docker.docker_container:
+        name: db
+        image: mysql:5.7
+        networks:
+          - name: wordpress
+        volumes:
+          - db:/var/lib/mysql
+        env:
+          MYSQL_DATABASE: "exampledb"
+          MYSQL_USER: "exampleuser"
+          MYSQL_PASSWORD: "examplepass"
+          MYSQL_RANDOM_ROOT_PASSWORD: '1'
+        restart_policy: always
 ```

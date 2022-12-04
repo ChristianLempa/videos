@@ -43,14 +43,14 @@ Finally, we can now start developing our application. This should be the easy pa
 Let's create a new Python file called `app.py`  and place it in our workspace folder. If you get a message to select your Python Interpreter, you can simply select it. Because we need to tell WSL how we want to run Python programs. If you don't get a message, but you want to select your standard Python interpreter, only for this workspace folder you can create a new file called `.vscode/settings.json` inside your workspace folder.
 
 ```py
-a = 5
-b = 3
+a = 5
+b = 3
 
-c = a + b
+c = a + b
 
-print(f"{a} + {b} is {c}")
+print(f"{a} + {b} is {c}")
 
-print("program exited.")
+print("program exited.")
 ```
 
 ### 2.2. Set the Python interpreter
@@ -59,7 +59,7 @@ Set the Python interpreter in `.vscode/settings.json`
 
 ```json
 {
-    "python.pythonPath": "/usr/bin/python3"
+    "python.pythonPath": "/usr/bin/python3"
 }
 ```
 
@@ -92,29 +92,29 @@ Then, you should see some new files in your workspace folder. Because the Python
 Let's take a closer look at the Dockerfile.
 
 ```Dockerfile
-# For more information, please refer to https://aka.ms/vscode-docker-python
-FROM python:3.8-slim-buster
+# For more information, please refer to https://aka.ms/vscode-docker-python
+FROM python:3.8-slim-buster
 
-# Keeps Python from generating .pyc files in the container
-ENV PYTHONDONTWRITEBYTECODE=1
+# Keeps Python from generating .pyc files in the container
+ENV PYTHONDONTWRITEBYTECODE=1
 
-# Turns off buffering for easier container logging
-ENV PYTHONUNBUFFERED=1
+# Turns off buffering for easier container logging
+ENV PYTHONUNBUFFERED=1
 
-# Install pip requirements
-COPY requirements.txt .
-RUN python -m pip install -r requirements.txt
+# Install pip requirements
+COPY requirements.txt .
+RUN python -m pip install -r requirements.txt
 
-WORKDIR /app
-COPY . /app
+WORKDIR /app
+COPY . /app
 
-# Creates a non-root user with an explicit UID and adds permission to access the /app folder
-# For more info, please refer to https://aka.ms/vscode-docker-python-configure-containers
-RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
-USER appuser
+# Creates a non-root user with an explicit UID and adds permission to access the /app folder
+# For more info, please refer to https://aka.ms/vscode-docker-python-configure-containers
+RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
+USER appuser
 
-# During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
-CMD ["python", "app.py"]
+# During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
+CMD ["python", "app.py"]
 ```
 
 ### 3.3. Build the Docker image file and run it
@@ -157,30 +157,30 @@ This is only possible, because the Docker extensions created the two files .vsco
 
 ```json
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "type": "docker-build",
-            "label": "docker-build",
-            "platform": "python",
-            "dockerBuild": {
-                "tag": "vscodedockerpython:latest",
-                "dockerfile": "${workspaceFolder}/Dockerfile",
-                "context": "${workspaceFolder}",
-                "pull": true
-            }
-        },
-        {
-            "type": "docker-run",
-            "label": "docker-run: debug",
-            "dependsOn": [
-                "docker-build"
-            ],
-            "python": {
-                "file": "app.py"
-            }
-        }
-    ]
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "docker-build",
+            "label": "docker-build",
+            "platform": "python",
+            "dockerBuild": {
+                "tag": "vscodedockerpython:latest",
+                "dockerfile": "${workspaceFolder}/Dockerfile",
+                "context": "${workspaceFolder}",
+                "pull": true
+            }
+        },
+        {
+            "type": "docker-run",
+            "label": "docker-run: debug",
+            "dependsOn": [
+                "docker-build"
+            ],
+            "python": {
+                "file": "app.py"
+            }
+        }
+    ]
 }
 ```
 

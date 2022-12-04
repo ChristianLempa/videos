@@ -99,7 +99,7 @@ services:
       - configure
 ```
 
-Before you start the container you should change the `hostname` of both containers and set this to the Fully-qualified domain name of your server. You can still change it later in the configuration file, but if you set this up right from the beginning it makes things a lot easier. Then start the docker container with the following command.
+Before you start the container you should change the `hostname` of both containers and set this to the Fully-qualified domain name of your server. You can still change it later in the configuration file, but if you set this up right from the beginning it makes things a lot easier. Then start the docker container with the following command.
 
 ### Start the Teleport Server
 
