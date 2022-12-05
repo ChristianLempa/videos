@@ -1,4 +1,4 @@
-# WIP
+# TrueNAS Scale Traefik Setup // EASY GUIDE
 WIP
 
 Project Homepage: https://www.truenas.com/
@@ -30,6 +30,10 @@ Under **Apps -> Settings -> Advanced Settings**, change the **Node IP** to your 
 
 All future load balancers deployed in Kubernetes will use this new **Node IP**.
 
+### Change the TrueNAS Scale GUI listening ip addresses
+
+Under **Apps -> Settings -> Advanced Settings**, change the **Node IP** to your alias ip address.
+
 ## Setting up certificates
 
 When using Traefik, you should issue trusted SSL certificates to be used by the load balancers. This can be a **wildcard** certificate, that is valid for all subdomains and all future applications, you want to expose.
@@ -57,7 +61,8 @@ Under **Certificate Signing Requests**, add a **Certificate Signing Request**.
 1. Select Certificate Signing Request
 2. Choose your Certificate Options (RSA, or EC)
 3. Enter your Certificate Subject Details
-4. Enter your Subject Alternative Names according to your domain, you can also add a wilcard in here (`*.local`, or `*.domain.tld`).
+4. Enter your Subject Alternative Names according to your hostname, and domain.
+5. (Optional) you can also add a wilcard in here (`*.local`, or `*.domain.tld`), ***but don't soley use a wildcard!***
 
 Under **Certificate Signing Requests**, select your **Certificate Signing Request** and create an **ACME Certificate**.
 
@@ -65,7 +70,7 @@ Under **Certificate Signing Requests**, select your **Certificate Signing Reques
 2. Select **Production**, or **Staging** in **ACME Server Directory URI**.
 3. Add your **Domain**, and select your **Authenticator**.
 
-## Install Traefik WIP
+## Install Traefik
 
 Applications are managed under **Apps -> Available Applications**. 
 
@@ -73,7 +78,7 @@ Applications are managed under **Apps -> Available Applications**.
 
 ### Deploy Traefik as a new application
 
-1. Create a new application using the Traefik Truecharts Deployment
+1. Create a new application using the Traefik TrueCharts Deployment.
 2. Select your **desired replicas**, and the correct **timezone**.
 3. Enable **ingressClass**, and **isDefaultClass**.
 4. (Optional) change the **Main Entrypoints**, **Service Type** to **ClusterIP** to protect the web interface of Traefik.
@@ -83,7 +88,19 @@ Applications are managed under **Apps -> Available Applications**.
 
 ## Deploy a test application
 
-### WIP
+Applications are managed under **Apps -> Available Applications**. 
+
+*Make sure, you have a dns record that's pointing to the primary node ip address of your TrueNAS Scale server, as described above.*
+
+### Deploy homeassistant as a test
+
+1. Create a new application using the Homeassistant TrueCharts Deployment.
+2. In the **Network and Service** Settings, change the **Service Type** to `ClusterIP`.
+3. In the **Ingress** Settings, enable **Ingress**.
+4. In the **Ingress** Settings, add your desired **Hostname**, and **Paths**.
+5. In the **Ingress** Settings, configure your desired **TLS Settings**, and the corresponding **Hostname**, and select the created **TrueNAS Scale Certifcate**.
+
+Check if you can reach your app.
 
 ---
 ## References
