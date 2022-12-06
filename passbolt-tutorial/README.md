@@ -1,9 +1,10 @@
-# An open source Password Manager built for Teams
-In this Tutorial we setup a free and open-source password manager for your home labs, or professional it teams, such as devops, sysadmins, and so on. We will deploy passbolt on a docker server and configure a mail server and trusted SSL certificates by using traefik and letsencrypt.
+# Self hosted, open source password manager built for teams!
+
+In this Tutorial we set up a free and open-source password manager for your home labs, or professional it teams, such as DevOps, sysadmins, and so on. We will deploy Passbolt on a docker server and configure a mail server and trusted SSL certificates by using Traefik and Letsencrypt.
 
 Project Homepage: https://www.passbolt.com
 
-Video: // WIP
+Video: https://youtu.be/cEDXeYStfP4
 
 ---
 ## Prerequisites
