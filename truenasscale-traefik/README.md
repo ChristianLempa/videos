@@ -32,7 +32,7 @@ All future load balancers deployed in Kubernetes will use this new **Node IP**.
 
 ### Change the TrueNAS Scale GUI listening ip addresses
 
-Under **Apps -> Settings -> Advanced Settings**, change the **Node IP** to your alias ip address.
+Under **System Settings -> General -> GUI -> Settings**, change the **Web Interface IPv4 Address** to include only IP addresses where the GUI should be listening on. *Exclude the alias IP address, you used for the Node IP in the App Settings.*
 
 ## Setting up certificates
 
