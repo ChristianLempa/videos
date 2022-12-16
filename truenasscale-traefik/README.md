@@ -13,6 +13,7 @@ TrueNAS Scale with TrueCharts
 
 For further References, how to deploy **TrueNAS Scale** with **TrueCharts**, check out my previous video:
 - [TrueNAS Scale the ULTIMATE Home Server? Docker, Kubernetes, Apps](https://youtu.be/LJY9KBbL4j0)
+- [How to create a valid self signed SSL Certificate?](https://youtu.be/VH4gXcvkmOY)
 
 ---
 ## Setting up an ip address
