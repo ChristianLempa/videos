@@ -1,9 +1,10 @@
-# TrueNAS Scale Traefik Setup // EASY GUIDE
-WIP
+# Secure HTTPS for all your TrueNAS Scale Apps (traefik)
+
+In this Tutorial we install Traefik, a free and open-source load balancer, on TrueNAS Scale. We will cover the creation of trusted SSL Certificates via Letsencrypt and Cloudflare DNS, and also how to securely expose an application like Homeassistant. #TrueNAS #Traefik #HomeLab
 
 Project Homepage: https://www.truenas.com/
 
-Video: // WIP
+Video: https://youtu.be/QSMgfz5zrxo
 
 ---
 ## Prerequisites
