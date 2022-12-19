@@ -1,14 +1,17 @@
-$TTL 86400
-@             IN     SOA    ns.demo.clcreative.de. (
-                            2001062501     ; serial
-                            1H             ; refresh
-                            1H             ; retry
-                            4W             ; expire
-                            1H )           ; minimum TTL
+$TTL 2d
+
+$ORIGIN demo.clcreative.de.
+
+@             IN     SOA    ns.demo.clcreative.de. info.clcreative.de (
+                            2022121900     ; serial
+                            12h            ; refresh
+                            15m            ; retry
+                            3w             ; expire
+                            2h )           ; minimum TTL
 
               IN     NS     ns.demo.clcreative.de.
 
-ns            IN     A      10.20.0.2
+ns            IN     A      10.20.3.4
 
 srv-demo-2    IN     A      10.20.3.4
 *.srv-demo-2  IN     A      10.20.3.4
