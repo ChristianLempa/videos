@@ -1,169 +1,162 @@
-# Automate your virtual lab environment with Ansible and Vagrant
-I show you how you can easily automate a full lab environment containing multiple virtual machines using Vagrant and Ansible.
+# Automate your Docker deployments with Ansible
+Ansible Docker Deployments for your Servers made easily! In this video, I'll show you how I've used Ansible to automate my webserver deployments. We're deploying Portainer, Watchtower, and a WordPress Blog.
 
-We will use the free and open-source software Ansible by Red Hat, and the free and open-source software Vagrant by Hashicorp.
+We will use the free and open-source software Ansible by Red Hat.
 
-**Ansible**:
 Project Homepage: https://www.ansible.com/
 Documentation: https://docs.ansible.com/
 
-**Vagrant**:
-Project Homepage: https://www.vagrantup.com/
-Documentation: https://www.vagrantup.com/docså
-Find Boxes: https://app.vagrantup.com/boxes/search
 
-Video: https://youtu.be/7Di0twyxw1M
+Video: https://youtu.be/CQk9AOPh5pw
 
 ## Prerequisites
 
-- Linux, macOS or Windows 10, 11 with WSL2 (Debian or Ubuntu)
+- Linux, macOS or Windows 10, 11 with WSL2 (Debian or Ubuntu) running Ansible
 - Linux Server for testing
 
-## Installation and Configuration
+*To set up Linux, macOS or Windows 10, 11 with WSL2 running Ansible, follow my [Ansible Tutorial](https://github.com/xcad2k/videos/tree/main/ansible-tutorial)*
 
-1. Use Vagrant with Ansible on Windows 10, 11
+## 1. Installation and Configuration
 
-If you’re running Vagrant on Linux, you can skip this part. But if you’re running Vagrant on Windows with VirtualBox or Hyper-V, you have a problem. Because Ansible is not running on Windows, you will need to run Vagrant with Ansible scripts on a Linux machine. Luckily, you can do this pretty easily with the Windows Subsystem for Linux (WSL2). Because the trick is to install Vagrant on your WSL machine and on your Windows 10, too. Note, that it needs to be installed exactly in the same version and it’s still considered a beta version at this time.
+### 1.1. Install the Docker Galaxy Extension for Ansible
 
-To install Vagrant on WSL just simply download the latest version at https://releases.hashicorp.com/vagrant/.
+Now, we can install the Ansible Galaxy Extension to manage Docker containers on remote servers. Simply execute the following command.
 
 ```bash
-wget https://releases.hashicorp.com/vagrant/2.2.10/vagrant_2.2.10_x86_64.deb
-
-sudo apt install ./vagrant_2.2.10_x86_64.deb
+ansible-galaxy collection install community.docker
 ```
 
-Next, you need to add a few environment variables according to https://www.vagrantup.com/docs/other/wsl.html. If you’re running bash, simply add them to your .bashrc file. On zsh you need to place them in your .zshrc file.
+### 1.2. Configure our Ansible Environment
 
-```
-VAGRANT_WSL_WINDOWS_ACCESS_USER_HOME_PATH=/mnt/c/Users/<your-personal-folder>
-VAGRANT_WSL_ENABLE_WINDOWS_ACCESS=1
-```
+Let's start configuring our Ansible Environment. Because we need to set up an ansible.cfg and inventory file in our project folder to tell Ansible how to connect to our remote server. The inventory file is a simple text file that just contains the IP address of our server.
 
-On Windows 10, 11 with Hyper-V, set the default provider with the following environment variable.
-
-```
-VAGRANT_DEFAULT_PROVIDER=hyperv
-```
-
-Check if Vagrant is running on your WSL2 and can communicate to the Hypervisor on your Windows 10 by executing the vagrant command. If and error shows up, you probably haven’t loaded the environment variables correctly.
-
-2. Install Ansible
-
-```
-sudo apt-add-repository ppa:ansible/ansible
-
-sudo apt update
-
-sudo apt install ansible
+**Example Ansible Configuration**:
+```conf
+[defaults]
+inventory = inventory
+host_key_checking = False  # optional: removes the SSH prompt 
+deprecation_warnings=False  # optional: removes deprecation warning in playbooks
+remote_user = <remote-user>
+private_key_file = <remote-user-private-key-file>
 ```
 
-## Set up a Vagrant machine
+### 1.3. (optional) Test Ansible Connection
 
-Now let’s start with the creation of our Vagrantfile. If you’re not familiar with Vagrant yet, you should check out my tutorial about Vagrant, to learn the fundamentals. When you’re running Vagrant with VirtualBox, the configuration will look slightly different, because I’m using Hyper-V as my default provider. Any Virtualbox fans can just comment out the HyperV subconfiguration part.
+If everything is configured correctly, you can test the connection with the following command.
 
-**Example Vagrantfile**:
-```ruby
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-Vagrant.configure("2") do |config|
-    config.vm.define "master" do |subconfig|
-        subconfig.vm.box = "generic/ubuntu2004"
-        subconfig.vm.hostname = "master"
-        subconfig.vm.provider "hyperv"
-        subconfig.vm.network "public_network", bridge: "BRIDGE"
-
-        subconfig.vm.provider "hyperv" do |h|
-            h.enable_virtualization_extensions = false
-            h.linked_clone = false
-            h.vmname = "ubuntu_cluster_master"
-        end
-
-        subconfig.vm.provision "ansible" do |a|
-            a.verbose = "v"
-            a.playbook = "master_playbook.yaml"
-        end
-    end
-end
+```bash
+ansible all -m ping
 ```
 
-If you later want to add more than one virtual machine, it’s useful to create a sub config for every single machine.
+## 2. Install Docker on our remote Server
 
-```ruby
-config.vm.define "master" do |subconfig|
-```
+If we have configured our Ansible Environment, we can install all necessary components on our remote server. Because I installed a fresh new Ubuntu 20.04 LTS server, we need to install Docker first. And also the Docker Python SDK is required by Ansible to run containers on remote servers. Therefore, you have two options to install everything on the remote server.
 
-We can automatically attach our virtual machine(s) to a virtual switch in Hyper-V with the following statement.  Because the “BRIDGE” Interface is the name of my virtual switch that connects the virtual machine to my physical network adapter.
+**Option 1: Manual installation of all components**
 
-```ruby
-subconfig.vm.network "public_network", bridge: "BRIDGE"
-```
+When you want to install the components manually, just have a look at the Docker Installation Documentation. You also need to install Python, the Python Package Manager, and the Docker SDK.
 
-This h configuration is part of the provider-specific configuration of the Hyper-V on Windows 10. For more information check out this blogpost.
+**Option 2: Install Docker with an Ansible Playbook**
 
-```ruby
-subconfig.vm.provider "hyperv" do |h|
-    h.enable_virtualization_extensions = false
-    h.linked_clone = false
-    h.vmname = "ubuntu_cluster_master"
-end
-```
+Since we already have configured Ansible to manage our remote server, why shouldn't we use it? Because I've already prepared an Ansible Playbook, you can just download and run it. You will find this Playbook in my GitHub Repository Ansible-Boilerplates, and it will install Docker and the Python Docker SDK for you.
 
-Now we will create another subconfiguration to provision the machine with an ansible-playbook. This will contain all ansible instructions to provision our virtual machine. Vagrant automatically executes the ansible-playbook once the virtual machine is created the first time.
+## 3. Run Portainer with Ansible
 
-```ruby
-    subconfig.vm.provision "ansible" do |a|
-        a.verbose = "v"
-        a.playbook = "master_playbook.yaml"
-    end
-```
+### 3.1. Write Ansible Playbook
 
-## Create Ansible Playbook
-
-Now, we need to create your ansible-playbook that is used to provision our virtual machine. I’ve created an example of a playbook that will automatically install Docker. Of course, you can simply change the playbook to whatever your need is. By the way, you find useful examples on my GitHub repository ansible-boilerplates. Of course, you can simply use and modify them in a variety of different setups.
-
-Because Vagrant completely handles the provisioning and authentication part, you don’t need to enter any passwords or public SSH keys.
+Now we're ready to deploy our first Docker container with Ansible! Create a new Ansible Playbook YAML file in your project folder, that should look like this.
 
 ```yml
 - hosts: all
-    become: yes
-    tasks:
-    - name: install prerequisites
-    apt:
-        name:
-        - apt-transport-https
-        - ca-certificates 
-        - curl 
-        - gnupg-agent
-        - software-properties-common
-    - name: add apt-key
-    apt_key:
-        url: https://download.docker.com/linux/ubuntu/gpg
-    - name: add docker repo
-    apt_repository:
-        repo: deb https://download.docker.com/linux/ubuntu focal stable
-    - name: install docker 
-    apt:
-        name: 
-        - docker-ce
-        - docker-ce-cli
-        - containerd.io
-        update_cache: yes
-    - name: add userpermissions
-    shell: "usermod -aG docker vagrant"
+  become: yes
+  tasks:
+
+    - name: Deploy Portainer
+      community.docker.docker_container:
+        name: portainer
+        image: portainer/portainer-ce
+        ports:
+          - "9000:9000"
+          - "8000:8000"
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+          - portainer_data:/data
+        restart_policy: always
 ```
 
-## Start the Lab Environment
+### 3.2. Run Ansible Playbook
 
-Now, start the virtual lab environment. Just execute `vagrant up`, and Vagrant will create the virtual machine, install the box image, and provision it with the ansible-playbook. After that, you should see that all tasks are applied.
+To run the Ansible Playbook, simply execute the following command in the shell.
 
 ```bash
-vagrant up
+ansible-playbook <playbook-file.yaml>
 ```
 
-### Connect to the Lab Environment
+## 4. Run Watchtower with Ansible
 
-```
-vagrant ssh
+### 4.1. Write Ansible Playbook
+
+To run our second Docker container, we simply can just add another task inside the same Ansible Playbook. Because Ansible will take care of which Containers are already deployed and if there are any changes to be made. And it only re-deploys containers if there are changes being made.
+
+```yml
+    - name: Deploy Watchtower
+      community.docker.docker_container:
+        name: watchtower
+        image: containrrr/watchtower
+        command: --schedule "0 0 4 * * *" --debug
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+        restart_policy: always
 ```
 
+Simply run the Playbook with the same command above again. You can see that the task "Portainer" is not executed again, only our new task "Watchtower".
+
+## 5. Deploy a Wordpress Blog with Ansible and Docker
+
+### 5.1. Write Ansible Playbook
+
+Let's also deploy two more containers, to automate the deployment of my webserver. Because I want to run a WordPress Blog on this server, we execute the following Playbook.
+
+We also need to create a new Network before running the Containers. Otherwise, WordPress will not be able to connect to the Database Container. Therefore we also need to attach them to the same Network.
+
+```yml
+- hosts: all
+  become: yes
+  tasks:
+
+    - name: Create Network
+      community.docker.docker_network:
+        name: wordpress
+
+    - name: Deploy Wordpress
+      community.docker.docker_container:
+        name: wordpress
+        image: wordpress:latest
+        ports:
+          - "80:80"
+        networks:
+          - name: wordpress
+        volumes:
+          - wordpress:/var/www/html
+        env:
+          WORDPRESS_DB_HOST: "db"
+          WORDPRESS_DB_USER: "exampleuser"
+          WORDPRESS_DB_PASSWORD: "examplepass"
+          WORDPRESS_DB_NAME: "exampledb"
+        restart_policy: always
+
+    - name: Deploy MYSQL
+      community.docker.docker_container:
+        name: db
+        image: mysql:5.7
+        networks:
+          - name: wordpress
+        volumes:
+          - db:/var/lib/mysql
+        env:
+          MYSQL_DATABASE: "exampledb"
+          MYSQL_USER: "exampleuser"
+          MYSQL_PASSWORD: "examplepass"
+          MYSQL_RANDOM_ROOT_PASSWORD: '1'
+        restart_policy: always
+```
