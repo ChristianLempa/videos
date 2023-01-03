@@ -1,8 +1,8 @@
 # You want a real DNS Server at home? (bind9 + docker)
 
-In this Tutorial we set up a free and open-source dns server for your home labs. We will deploy bind9 on an Ubuntu Linux server running Docker and configure it to be an authoritative dns server in my local network. And we also configure forwarders and access control lists to protect our internal networks.
+In this Tutorial, we set up a free and open-source DNS server for your home labs. We will deploy bind9 on an Ubuntu Linux server running Docker and configure it to be an authoritative DNS server in my local network. And we also configure forwarders and access control lists to protect our internal networks. #homeserver #dns #docker
 
-Video: // WIP
+Video: https://github.com/ChristianLempa/videos/tree/main/bind9-docker
 
 ---
 ## Prerequisites
@@ -14,6 +14,23 @@ For further References, how to use **Docker**, and **Docker-Compose**, check out
 - [Docker-Compose Tutorial](https://www.youtube.com/watch?v=qH4ZKfwbO8w)
 
 *You can still install Bind9 on a Linux Server that is not running Docker, however, this may require different commands!*
+
+---
+## Define your domain
+
+You have multiple options of defining a domain, you can use a so-called "fake-domain", which is not publicly resolvable, such as "your-domain.home". However, a "fake-domain", will not allow you to issue trusted SSL certificates, in this case it makes more sense to use a real "public domain".
+
+### Example of public domain
+
+![[dns-setup-new.excalidraw]]
+
+### Split-horizon DNS
+
+In computer networking, split-horizon DNS (also known as split-view DNS, split-brain DNS, or split DNS) is the facility of a Domain Name System (DNS) implementation to provide different sets of DNS information, usually selected by the source address of the DNS request.
+
+In our example, we can use the internal Bind9 Server to resolve to only internal IPs, while an external DNS Server might resolve to external IPs.
+
+![[dns-split-horizon.excalidraw]]
 
 ---
 ## Install Bind9 in Docker
@@ -124,7 +141,21 @@ docker-compose up -d
 ```
 
 ---
+## Test Bind9
+
+To test your bind9 dns server, you can use the "nslookup" command on your local machine, followed by the IP address of your dns server.
+
+```sh
+nslookup name-to-resolve.tld your-dns-server-ip
+```
+
+---
+## DNS Lookup Chain
+
+![[dns-lookup-chain-optimized.excalidraw]]
+
+---
 ## References
 
-- [Bind9 Configuration and Zone Fiels](https://bind9.readthedocs.io/en/v9_18_10/chapter3.html)
+- [Bind9 Configuration and Zone Files](https://bind9.readthedocs.io/en/v9_18_10/chapter3.html)
 - [IANA's DNS Resource Records TYPEs](https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4)
