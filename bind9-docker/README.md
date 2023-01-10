@@ -84,7 +84,7 @@ Copy the example `named.conf` file in the `./config/` folder of your project dir
 
 ```conf
 acl internal {
-  192.168.0.0/24
+  192.168.0.0/24;
 };
 
 options {
