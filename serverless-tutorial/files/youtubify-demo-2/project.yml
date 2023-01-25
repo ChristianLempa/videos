@@ -1,0 +1,15 @@
+packages:
+    - name: youtubify
+      functions:
+        - name: getlatestvideo
+          runtime: python:default
+          web: false
+          environment:
+            YOUTUBE_API_KEY: "your-youtube-api-key"
+            YOUTUBE_CHANNEL_ID: "your-youtube-channel-id"
+            SPACES_ACCESS_KEY: "your-spaces-access-key"
+            SPACES_SECRET_KEY: "your-spaces-secret-key"
+            DISCORD_WEBHOOK_URL: "your-discord-webhook-url"
+          limits:
+            timeout: 3000
+            memory: 512
