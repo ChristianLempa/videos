@@ -1,16 +1,14 @@
-# I made a serverless YouTube Bot in Python (digitalocean functions)
+# I made a YouTube Bot in Python! (Serverless Computing: DigitalOcean Functions)
 
-TODO: add description
-#serverless #python #digitaloceanfunctions
+In this video, I explain what serverless computing is, by showing how I've used DigitalOcean Functions, to write a simple YouTube Bot in Python. This Bot is getting the latest published video on a YouTube Channel, and sends out a message to a Discord Channel. We discuss how to use APIs, store and retrieve Secrets, Tokens, use S3 Buckets, and much more. There is a lot of coding stuff in here, hope you'll enjoy it! #serverless #python #digitaloceanfunctions
 
-Video: TODO: add video link
+Video: https://www.youtube.com/watch?v=D_MUphj5tCM
+
 
 ---
 ## Prerequisites
 
-Before you can create serverless functions in **DigitalOcean**, you need to sign up at TODO: add referral code here.
-
-*TODO: add referral description here*
+Before you can create serverless functions in **DigitalOcean**, you need to sign up.
 
 *Some examples that get information about the latest video of a YouTube channel, need to use the YouTube Data API. The YouTube Data API allows you to retrieve information about YouTube videos, channels, playlists, and more. To use the API, you'll need to have a project on the Google Cloud Platform, and you'll need to enable the YouTube Data API for that project.*
 
