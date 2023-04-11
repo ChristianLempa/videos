@@ -36,7 +36,7 @@ Go to the Zero Trust Dashboard and select "Set Up Cloudflare Tunnel". Give the t
 
 ### Create Docker Compose file
 
-Create a new project folder and create a new file called `docker-compose.yml` and add the following content: 
+Create a new project folder and create a new file called `docker-compose.yml` and add the following content:
 
 ```yaml
 version: '3.9'
@@ -71,10 +71,10 @@ Start the container by executing the `docker-compose up -d`, and check the Cloud
 ---
 ## Set up public hostname
 
-1. Go to the Cloudflare Zero Trust Dashboard and edit the Cloudflare Tunnel application. 
-2. Go to the Public Hostnames section. 
-3. Add a subdomain for the application, such as  nginx-demo-one  on your public domain. 
-4. Enter the target URL for the application. If the application is using an HTTP protocol and is on the same docker network, you can use the container name as the URL. 
+1. Go to the Cloudflare Zero Trust Dashboard and edit the Cloudflare Tunnel application.
+2. Go to the Public Hostnames section.
+3. Add a subdomain for the application, such as  nginx-demo-one  on your public domain.
+4. Enter the target URL for the application. If the application is using an HTTP protocol and is on the same docker network, you can use the container name as the URL.
 
 ---
 ## Fix Traefik issues
