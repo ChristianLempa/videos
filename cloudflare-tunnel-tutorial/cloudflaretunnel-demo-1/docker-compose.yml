@@ -1,0 +1,19 @@
+version: '3.9'
+
+networks:
+  frontend:
+    external: true
+  backend:
+    external: true
+
+services:
+  cloudflaretunnel:
+    container_name: cloudflaretunnel-demo-1
+    image: cloudflare/cloudflared:2023.2.1
+    restart: unless-stopped
+    environment:
+      - TUNNEL_TOKEN=$TUNNEL_TOKEN
+    command: tunnel --no-autoupdate run
+    networks:
+      - frontend
+      - backend
