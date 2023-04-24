@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-demo-2-deployment
+  namespace: nginx-demo-2
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      app: nginx-demo-2
+  template:
+    metadata:
+      labels:
+        app: nginx-demo-2
+    spec:
+      containers:
+      - name: nginx-demo-2
+        image: nginx:1.23.4
+        ports:
+        - name: web
+          containerPort: 80
