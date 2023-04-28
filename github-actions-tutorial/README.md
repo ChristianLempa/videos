@@ -1,13 +1,15 @@
-# Using GitHub Actions, in a Homelab?
+# Using GitHub Actions, in a self-hosted Homelab?
 
-DESCRIPTION, HASHTAGS
+Are you interested in automating your Homelab? Then learning GitHub Actions is a great way to get started! With GitHub Actions, you can automate the process of building, testing, and deploying applications on a Kubernetes Cluster. Instead of spending your day in front of a terminal, you can just sit back and let GitHub Actions do all the work for you. In this video, I’ll show you how to set up a project, install a self-hosted runner, and deploy an app on your local Kubernetes Cluster. Tune in to learn more about Homelab automation with GitHub Actions! #GitHubActions #Homelab #Automation
 
 Video: VIDEOLINK
 
 ---
 ## Prerequisites
 
-TODO: Before you can xyz, you need to abc.
+- Local Kubernetes Cluster
+- GitHub Account
+- Linux Server at Home
 
 ---
 ## Set up an organization in GitHub
