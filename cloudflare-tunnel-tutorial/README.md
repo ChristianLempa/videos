@@ -63,7 +63,7 @@ services:
 Load the tunnel token into the environment variable on your server by executing:
 
 ```sh
-export TUNNEL_TUKEN=xxxxx
+export TUNNEL_TOKEN=xxxxx
 ```
 
 Start the container by executing the `docker-compose up -d`, and check the Cloudflare dashboard to see if the tunnel is healthy.
