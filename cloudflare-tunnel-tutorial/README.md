@@ -27,7 +27,7 @@ Go to the Cloudflare Dashboard and select "Add Site". Enter your domain name and
 
 The Cloudflare Tunnel application will create a secure reverse tunnel from inside your homelab to the Cloudflare's infrastructure.
 
-![](../_assets/cloudflare-tunnel-1.png)
+![](assets/cloudflare-tunnel-1.png)
 
 ### Create new Cloudflare Tunnel
 
@@ -87,7 +87,7 @@ If you have this problem, change the Label for the Traefik Rule to add a double 
 Host(`your-internal-hostname`) || Host(`your-public-hostname`)
 ```
 
-![](../_assets/cloudflare-tunnel-2.png)
+![](assets/cloudflare-tunnel-2.png)
 
 ---
 ## Setting Up Access Control for Nginx Web Server Services
