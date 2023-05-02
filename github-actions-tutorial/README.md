@@ -54,13 +54,9 @@ GitHub allows us to set up self-hosted runners for free, which is a better way t
 
 ## Set up an organization in GitHub
 
-If you want to use it in your own infrastructure with a self-hosted runner, you will also need to create an organization, first.
+If you want to use it in your own infrastructure with a self-hosted runner, you need to add it, first.
 
-1. Go to your GitHub Account under **Settings -> Access -> Organization**, and create a new organization.
-
-2. Open the organization settings.
-
-3. To create a new runner, go to **Code, planning, and automation -> Actions -> Runners**, and add a new self-hosted runner.
+Go to your GitHub Repository under **Settings -> Actions -> Runners**, and add a new self-hosted runner.
 
 ![](assets/github-actions-tutorial-asset-1.png)
 
