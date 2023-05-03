@@ -10,6 +10,7 @@ Video: https://youtu.be/tIWDpG7sNTU
 - Local Kubernetes Cluster
 - GitHub Account
 - Linux Server at Home
+
 ---
 ## What is GitHub Actions?
 
