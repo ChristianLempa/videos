@@ -1,4 +1,4 @@
-# WireGuard installation and configuration - on Linux
+# Reverse proxy nginx letsencrypt tutorial
 In this tutorial, we set up a reverse proxy with NGINX and trusted HTTPS certificates from letsencrypt. We will install it directly on a Linux server and expose a sample web application.
 
 We will use the free and open-source Web Server NGINX.
