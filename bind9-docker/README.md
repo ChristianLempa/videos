@@ -22,7 +22,7 @@ You have multiple options of defining a domain, you can use a so-called "fake-do
 
 ### Example of public domain
 
-![[dns-setup-new.excalidraw]]
+![[assets/dns-setup-new.excalidraw]]
 
 ### Split-horizon DNS
 
@@ -30,7 +30,7 @@ In computer networking, split-horizon DNS (also known as split-view DNS, split-b
 
 In our example, we can use the internal Bind9 Server to resolve to only internal IPs, while an external DNS Server might resolve to external IPs.
 
-![[dns-split-horizon.excalidraw]]
+![[assets/dns-split-horizon.excalidraw]]
 
 ---
 ## Install Bind9 in Docker
@@ -152,7 +152,7 @@ nslookup name-to-resolve.tld your-dns-server-ip
 ---
 ## DNS Lookup Chain
 
-![[dns-lookup-chain-optimized.excalidraw]]
+![[assets/dns-lookup-chain-optimized.excalidraw]]
 
 ---
 ## References
