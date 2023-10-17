@@ -70,9 +70,9 @@ services:
       - "53:53/tcp"
       - "53:53/udp"
     volumes:
-      - .config:/etc/bind
-      - .cache:/var/cache/bind
-      - .records:/var/lib/bind
+      - ./config:/etc/bind
+      - ./cache:/var/cache/bind
+      - ./records:/var/lib/bind
     restart: unless-stopped
 ```
 
