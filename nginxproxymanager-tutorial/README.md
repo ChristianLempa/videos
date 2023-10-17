@@ -93,7 +93,7 @@ services:
       MYSQL_USER: 'npm'
       MYSQL_PASSWORD: 'npm'
     volumes:
-      - ./data/mysql:/var/lib/mysql
+      - ./mysql:/var/lib/mysql
 ```
 
 ### 2.2. Start the Nginx Proxy Manager
