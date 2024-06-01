@@ -23,7 +23,7 @@ sudo apt update
 
 sudo apt install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
 
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/docker-ce-archive-keyring.gpg > /dev/null
 
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 
@@ -39,10 +39,10 @@ sudo docker run hello-world
 
 ### Install Docker-Compose
 
-Download the latest version (in this case it is 1.25.5, this may change whenever you read this tutorial!)
+Download the latest version (in this case it is 2.27.1, this may change whenever you read this tutorial!)
 
 ```bash
-sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.27.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
 sudo chmod +x /usr/local/bin/docker-compose
 ```
@@ -55,6 +55,13 @@ sudo docker-compose --version
 ### (Optional) Add your linux user to the `docker` group
 ```bash
 sudo usermod -aG docker $USER
+
+newgrp docker 
+```
+
+### Check if Docker is working correctly after adding linux user to the 'docker' group
+```bash
+sudo docker run hello-world
 ```
 
 ## Set up Wireguard in Docker
@@ -62,6 +69,11 @@ sudo usermod -aG docker $USER
 ### Create a new Docker-Compose file
 
 Create a new folder in the `/opt` directory.
+```bash
+sudo mkdir /opt/wireguard-server
+
+sudo chown <your-username>:<your-username> /opt/wireguard-server/
+```
 
 You can also use your personal home folder `/home/<your-username>`, this may require different permissions.
 
